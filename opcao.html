@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escolha o seu Destino</title>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #1e458d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.versao{
+   position: fixed;
+   top: 50px;
+   right: 0;
+   width: 150px;
+   height: 50px;
+   animation: anima 10s linear infinite;
+   
+}
+
+
+
+@keyframes anima{
+   from {right: 0}
+   to {right: 100%}
+}
+
+.login-container {
+  background: #bdc3c7;
+  border-radius: 10px;
+  padding: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 13.5px );
+    -webkit-backdrop-filter: blur( 13.5px );
+    
+   
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.05)
+  );
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.box-blue {
+       
+}
+
+h1 {
+  color: #509f56;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+input:focus {
+  outline: none;
+  border-bottom-color: #3498db;
+}
+
+label {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  font-size: 16px;
+  color: #777;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+  top: -20px;
+  font-size: 12px;
+  color: #3498db;
+}
+
+
+button:active {
+  transform: scale(0.98);
+}
+
+.social-btn:hover {
+  transform: scale(1.1);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating-element {
+  position: absolute;
+  animation: float 4s ease-in-out infinite;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+select {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        font-family: monospace;
+        outline: 0;
+        background: #ffff;
+        color: #130505;
+        border: 1px solid rgb(2, 0, 1);
+        padding: 4px;
+        border-radius: 9px;
+        text-align: center;
+      }
+
+.circle-1 { top: -25px; left: -25px; }
+.circle-2 { bottom: -25px; right: -25px; }
+
+
+</style>
+</head>
+
+
+<body>
+<div class="login-container">
+  <div class="floating-element circle circle-1"></div>
+  <div class="floating-element circle circle-2"></div>
+  
+ 
+
+  <form id="loginForm">
+    
+    <div class="input-group">
+    </div>
+   <div class="box-blue">
+    <div class="versao" type="versao">versão v1.01.01</div>
+      <select id="link">
+        <option value="" selected>Escolha a faixa</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=2051366561&single=true">Andar 8, 9 e 10</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=520758441&single=true">Samsp+Crie</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=0#gid=0">Faixa 0</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1115397149#gid=1115397149">Faixa 1</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1809788111#gid=1809788111">Faixa 2</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1572344187#gid=1572344187">Faixa 3</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=286902531#gid=286902531">Faixa 4</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=2087272965#gid=2087272965">Faixa 5</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1963826406#gid=1963826406">Faixa 6</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1581187627#gid=1581187627">Faixa 7</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1637662983#gid=1637662983">Faixa 8</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1585823781#gid=1585823781">Faixa 9</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1233986465#gid=1233986465">Faixa 10</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1571736263#gid=1571736263">Faixa 11</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1759240658#gid=1759240658">Faixa 12</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=150854547#gid=150854547">Faixa 13</option>
+        <option value="http://127.0.0.1:5500/Faixa%2014.html">Faixa 14</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=365022506#gid=365022506">Faixa 15</option>
+        </select>
+   </div>
+  </form>
+      <div class="sair">
+       
+       <button><a href="index.html">SAIR</a></button>
+      </div>
+      
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      
+      <script>
+      $(document).ready(function(){
+      
+         $('#link').on('change', function () {
+              var url = $(this).val(); 
+              if (url) { 
+                  window.open(url, '_blank');
+               }
+               return false;
+             });
+          });
+      </script>
+
+    </select>
+    
+
+      </div>
+
+  </form>
+  <script>
+<input type="button" name="btn-sair" value="Sair" onclick="javascript:window.close()">
+
+  </script>
+</div>
+</body></html>
+
+
