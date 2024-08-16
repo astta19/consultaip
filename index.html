@@ -1,56 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="styles.css">
-  <link href='' rel='stylesheet'>
+<html><head><base href="">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Normal</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f4f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 320px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+button {
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4338ca;
+}
+
+.message {
+    margin-top: 1rem;
+    text-align: center;
+    color: #1f2937;
+    font-size: 0.9rem;
+}
+</style>
 </head>
-
 <body>
-
-  <div class="wrapper">
-    
-
-    <form action="">
-      <h1>Mapeamento</h1>
-      <div class="input-box">
-      <input type="text" placeholder="Login" id="login">
-      </div>
-      <div class="input-box">
-      <input type="password" placeholder="Senha" id="senha">
-      </div>
-      <input type="submit" class="btn" onclick="logar(); return false">
-
-      
-  </form>
-    </div>
+<div class="login-container">
+    <h1>Login</h1>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Nome de usuário" required>
+        <input type="password" id="password" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
     </form>
-  </div>
-</body>
+    <p class="message" id="message"></p>
+</div>
 
 <script>
-
-
-  function logar(){
-
-      var login = document.getElementById('login').value;
-      var senha = document.getElementById('senha').value;
-      
-  
-
-      if(login == "admin" && senha == "admin"){
-          alert('Sucesso!');
-          location.href = "opcao.html";
-      }else{
-          alert('Usuario ou senha incorretos :(');
-          
-      }
-      
-
-  }
-
-
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const messageElement = document.getElementById('message');
+    
+    // Simulação de autenticação
+    if (username === 'admin' && password === 'Moni299900') {
+        messageElement.style.color = '#10b981';
+        messageElement.textContent = 'Login bem-sucedido!';
+        
+        // Simulação de redirecionamento após login
+        setTimeout(() => {
+            window.location.href = 'opcao.html';
+        }, 2000);
+    } else {
+        messageElement.style.color = '#ef4444';
+        messageElement.textContent = 'Nome de usuário ou senha incorretos. Tente novamente.';
+    }
+});
 </script>
+</body>
 </html>
