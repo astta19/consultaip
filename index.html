@@ -7,7 +7,7 @@
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Arial', sans-serif;
+    font-family: monospace;
     background-color: #1a1a1a;
     display: flex;
     justify-content: center;
@@ -115,7 +115,7 @@
   </div>
 
   <script>
-    // Simulated user database
+
     const users = [
       { username: 'admin', password: 'admin' },
       { username: 'admin', password: 'Moni299900' },
@@ -128,13 +128,13 @@
       const password = document.getElementById('password').value;
       const messageElement = document.getElementById('message');
 
-      // Check credentials
+ 
       const user = users.find(u => u.username === username && u.password === password);
 
       if (user) {
         messageElement.textContent = 'Login successful!';
         messageElement.className = 'message success';
-        // Simulate redirection or further actions
+    
         setTimeout(() => {
           alert(`Bem vindo, ${username}!`);
         }, 1000);
@@ -146,6 +146,9 @@
         messageElement.className = 'message error';
       }
     });
+  </script>
+
+
   </script>
 </body>
 </html>
