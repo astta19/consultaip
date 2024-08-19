@@ -12,14 +12,15 @@
 
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background: #1e458d;
+  font-family: monospace;
+  background: #1a1a1a;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
   overflow: hidden;
+  
 }
 
 .versao{
@@ -31,7 +32,6 @@ body {
    animation: anima 10s linear infinite;
    
 }
-
 
 
 @keyframes anima{
@@ -57,101 +57,14 @@ body {
    
 }
 
-.login-container::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0.05)
-  );
-  transform: rotate(45deg);
-  pointer-events: none;
-}
-
-.box-blue {
-       
-}
-
-h1 {
-  color: #509f56;
-  margin-bottom: 30px;
-  font-weight: 600;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
 .input-group {
   position: relative;
   margin-bottom: 20px;
 }
-
-input {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-bottom: 2px solid #ddd;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  background: transparent;
-}
-
-input:focus {
-  outline: none;
-  border-bottom-color: #3498db;
-}
-
-label {
-  position: absolute;
-  top: 10px;
-  left: 0;
-  font-size: 16px;
-  color: #777;
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-input:focus + label,
-input:not(:placeholder-shown) + label {
-  top: -20px;
-  font-size: 12px;
-  color: #3498db;
-}
-
-
-button:active {
-  transform: scale(0.98);
-}
-
-.social-btn:hover {
-  transform: scale(1.1);
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
 .floating-element {
   position: absolute;
-  animation: float 4s ease-in-out infinite;
+  
 }
-
-.circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgba(52, 152, 219, 0.1);
-}
-
 select {
         margin-bottom: 10px;
         margin-top: 10px;
@@ -165,10 +78,45 @@ select {
         text-align: center;
       }
 
-.circle-1 { top: -25px; left: -25px; }
-.circle-2 { bottom: -25px; right: -25px; }
+.exit-button {
+    padding: 5px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #ff4136;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
 
+.exit-button:hover {
+    background-color: #ff1a1a;
+    transform: scale(1.05);
+}
 
+.exit-button:active {
+    transform: scale(0.95);
+}
+
+.exit-button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.exit-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
 </style>
 </head>
 
@@ -188,7 +136,8 @@ select {
     <div class="versao" type="versao">versão v1.01.01</div>
       <select id="link">
         <option value="" selected>Escolha a faixa</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=2051366561&single=true">Andar 8, 9 e 10</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=1045510031&single=true">Endoscopia</option>
+        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=2051366561&single=true">Andar 8, 9 e 10.</option>
         <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=520758441&single=true">Samsp+Crie</option>
         <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=0#gid=0">Faixa 0</option>
         <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1115397149#gid=1115397149">Faixa 1</option>
@@ -206,13 +155,20 @@ select {
         <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=150854547#gid=150854547">Faixa 13</option>
         <option value="http://127.0.0.1:5500/Faixa%2014.html">Faixa 14</option>
         <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=365022506#gid=365022506">Faixa 15</option>
-        <option value="gerarqr.html">GERAR QR CODE - Relatório</option>  
+        <option value="gerarqr.html">GERAR QR CODE - Relatório</option>
       </select>
    </div>
   </form>
       <div class="sair">
        
-       <button><a href="index.html">SAIR</a></button>
+        <button class="exit-button" id="exitButton">Sair</button>
+
+        <script>
+        document.getElementById('exitButton').addEventListener('click', function() {
+            alert('Você clicou no botão de sair!');
+            window.location.href = 'index.html';
+        });
+        </script>
       </div>
       
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
