@@ -1,0 +1,118 @@
+<html><head><base href="https://websim.ai/"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+  .container {
+    text-align: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  #qrcode {
+    margin: 2rem 0;
+  }
+  #downloadBtn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  #downloadBtn:hover {
+    background-color: #45a049;
+  }
+  #urlInput {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  #generateBtn {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  #generateBtn:hover {
+    background-color: #007B9A;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>QR Code</h1>
+    <input type="text" id="urlInput" placeholder="Cole o link da planilha Excel aqui">
+    <button id="generateBtn">Gerar QR Code</button>
+    <div id="qrcode"></div>
+    <button id="downloadBtn" style="display: none;">Baixar QR Code</button>
+  </div>
+
+  <script>
+    const urlInput = document.getElementById('urlInput');
+    const generateBtn = document.getElementById('generateBtn');
+    const qrcodeDiv = document.getElementById('qrcode');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    generateBtn.addEventListener('click', generateQRCode);
+
+    function generateQRCode() {
+      const url = urlInput.value.trim();
+      if (url === '') {
+        alert('Por favor, insira o link.');
+        return;
+      }
+
+      qrcodeDiv.innerHTML = '';
+      const qr = qrcode(0, 'M');
+      qr.addData(url);
+      qr.make();
+      qrcodeDiv.innerHTML = qr.createImgTag(5, 10);
+      
+      downloadBtn.style.display = 'inline-block';
+      downloadBtn.onclick = () => {
+        const link = document.createElement('a');
+        link.download = 'qrcode_excel.png';
+        link.href = qrcodeDiv.querySelector('img').src;
+        link.click();
+      };
+    }
+
+    // Exemplo de URL para uma planilha Excel online (Microsoft OneDrive)
+    urlInput.value = 'https://onedrive.live.com/edit.aspx?resid=XXXXXXXXXXXXXXXX&cid=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
+  </script>
+</body>
+</html>
