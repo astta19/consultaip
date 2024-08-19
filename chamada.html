@@ -1,0 +1,152 @@
+<html><head><base href="">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Chamada de Pacientes</title>
+<style>
+  body {
+    font-family: monospace;
+    background-color: #f0f5ff;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 90%;
+    max-width: 800px;
+    margin-bottom: 20px;
+  }
+  h1, h2 {
+    color: #2c3e50;
+    text-align: center;
+  }
+  #paciente-atual {
+    font-size: 36px;
+    text-align: center;
+    color: #3498db;
+    margin: 20px 0;
+    min-height: 50px;
+  }
+  #fila {
+    list-style-type: none;
+    padding: 0;
+  }
+  #fila li {
+    background-color: #ecf0f1;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 5px;
+  }
+  button:hover {
+    background-color: #2980b9;
+  }
+  input[type="text"] {
+    width: 60%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+  }
+  @keyframes piscar {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+  .piscando {
+    animation: piscar 1s infinite;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Chamada de Pacientes</h1>
+    <div id="paciente-atual">Aguardando...</div>
+    <div>
+      <input type="text" id="novo-paciente" placeholder="Nome do paciente">
+      <button id="adicionar-paciente">Adicionar Paciente</button>
+    </div>
+    <h2>Fila de Pacientes:</h2>
+    <ul id="fila"></ul>
+    <button id="chamar-proximo">Chamar Próximo Paciente</button>
+  </div>
+
+  <script>
+    let pacientes = [];
+
+    const pacienteAtualElement = document.getElementById('paciente-atual');
+    const filaElement = document.getElementById('fila');
+    const chamarProximoButton = document.getElementById('chamar-proximo');
+    const novoPacienteInput = document.getElementById('novo-paciente');
+    const adicionarPacienteButton = document.getElementById('adicionar-paciente');
+
+    function atualizarFila() {
+      filaElement.innerHTML = '';
+      pacientes.forEach((paciente, index) => {
+        const li = document.createElement('li');
+        li.textContent = paciente;
+        filaElement.appendChild(li);
+      });
+    }
+
+    function adicionarPaciente() {
+      const nome = novoPacienteInput.value.trim();
+      if (nome) {
+        pacientes.push(nome);
+        pacientes.sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }));
+        novoPacienteInput.value = '';
+        atualizarFila();
+      }
+    }
+
+    function chamarProximo() {
+      if (pacientes.length > 0) {
+        const paciente = pacientes.shift();
+        pacienteAtualElement.textContent = paciente;
+        pacienteAtualElement.classList.add('piscando');
+        setTimeout(() => {
+          pacienteAtualElement.classList.remove('piscando');
+        }, 5000);
+
+        // Chamada sonora
+        const utterance = new SpeechSynthesisUtterance(`${paciente}, por favor, compareça ao consultório.`);
+        utterance.lang = 'pt-BR';
+        speechSynthesis.speak(utterance);
+
+        atualizarFila();
+      } else {
+        pacienteAtualElement.textContent = "Não há mais pacientes na fila";
+      }
+    }
+
+    chamarProximoButton.addEventListener('click', chamarProximo);
+    adicionarPacienteButton.addEventListener('click', adicionarPaciente);
+    novoPacienteInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        adicionarPaciente();
+      }
+    });
+
+    // Inicializar a fila
+    atualizarFila();
+  </script>
+</body>
+</html>
