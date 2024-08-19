@@ -125,9 +125,6 @@ select {
 <div class="login-container">
   <div class="floating-element circle circle-1"></div>
   <div class="floating-element circle circle-2"></div>
-  
- 
-
   <form id="loginForm">
     
     <div class="input-group">
@@ -184,19 +181,14 @@ select {
                return false;
              });
           });
+
+          window.onbeforeunload = function(){
+    return 'Tchau';
+};
       </script>
 
     </select>
-    
-
-      </div>
-
-  </form>
-  <script>
-<input type="button" name="btn-sair" value="Sair" onclick="javascript:window.close()">
-
-  </script>
+  </div>
+</form>
 </div>
 </body></html>
-
-
