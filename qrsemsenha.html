@@ -1,0 +1,116 @@
+<html><head><base href="https://example.com/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de QR Code para Link</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .container {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+        width: 100%;
+    }
+    h1 {
+        color: #333;
+        margin-bottom: 1rem;
+    }
+    #link-input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    #generate-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+    #generate-btn:hover {
+        background-color: #45a049;
+    }
+    #qrcode {
+        margin-top: 2rem;
+    }
+    #download-link {
+        display: none;
+        margin-top: 1rem;
+        color: #4CAF50;
+        text-decoration: none;
+    }
+    #download-link:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de QR Code para Link</h1>
+        <input type="url" id="link-input" placeholder="Digite ou cole o link aqui" required>
+        <button id="generate-btn">Gerar QR Code</button>
+        <div id="qrcode"></div>
+        <a id="download-link" download="qrcode.png">Baixar QR Code</a>
+    </div>
+
+    <script>
+        const linkInput = document.getElementById('link-input');
+        const generateBtn = document.getElementById('generate-btn');
+        const qrcodeContainer = document.getElementById('qrcode');
+        const downloadLink = document.getElementById('download-link');
+        let qrcode;
+
+        generateBtn.addEventListener('click', function() {
+            const link = linkInput.value.trim();
+            if (link) {
+                generateQRCode(link);
+            } else {
+                alert('Por favor, insira um link válido.');
+            }
+        });
+
+        function generateQRCode(data) {
+            qrcodeContainer.innerHTML = '';
+            qrcode = new QRCode(qrcodeContainer, {
+                text: data,
+                width: 256,
+                height: 256,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // Wait for the QR code to be generated
+            setTimeout(() => {
+                const qrCodeImage = qrcodeContainer.querySelector('img');
+                downloadLink.href = qrCodeImage.src;
+                downloadLink.style.display = 'inline-block';
+            }, 100);
+        }
+
+        // Adiciona a funcionalidade de gerar QR code ao pressionar Enter no input
+        linkInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
