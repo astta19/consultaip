@@ -1,4 +1,4 @@
-<html><head><base href="geolocal_salvando_excel.html"><title>Sucesso</title>
+<html><head><base href="geolocal.html"><title>Sucesso</title>
 <style>
 body {
     font-family: 'Arial', sans-serif;
@@ -67,14 +67,14 @@ p {
     </svg>
     <h1>Dados Enviados com Sucesso!</h1>
     <p>Seus dados foram processados e armazenados com segurança em nossa base de dados.</p>
-    <button class="return-button" onclick="window.location.href='/'">Voltar à Página Inicial</button>
+    
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', (event) => {
     // Simula o recebimento de dados do servidor
     const mockData = {
-        id: '12345',
+        
         timestamp: new Date().toLocaleString(),
         status: 'success'
     };
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     successMessage.textContent = 'Dados Enviados com Sucesso!';
     detailsParagraph.innerHTML = `
         Seus dados foram processados e armazenados com segurança.<br>
-        ID da transação: ${mockData.id}<br>
+        
         Timestamp: ${mockData.timestamp}
     `;
 
