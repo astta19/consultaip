@@ -1,0 +1,156 @@
+<html><head><base href="geolocal.html"><title>Sucesso</title>
+<style>
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.success-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+.success-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+h1 {
+    color: #2ecc71;
+    margin-bottom: 15px;
+}
+p {
+    color: #7f8c8d;
+    margin-bottom: 25px;
+}
+.return-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.return-button:hover {
+    background-color: #2980b9;
+}
+@keyframes checkmark {
+    0% {
+        stroke-dashoffset: 100;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+.checkmark {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: checkmark 1s ease-in-out forwards;
+}
+</style>
+</head>
+<body>
+<div class="success-container">
+    <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" stroke="#2ecc71" stroke-width="2"/>
+        <path class="checkmark" fill="none" stroke="#2ecc71" stroke-width="2" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+    </svg>
+    <h1>Dados Enviados com Sucesso!</h1>
+    <p>Seus dados foram processados e armazenados com segurança em nossa base de dados.</p>
+    <button class="return-button" onclick="window.location.href='/'">Voltar à Página Inicial</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Simula o recebimento de dados do servidor
+    const mockData = {
+        id: '12345',
+        timestamp: new Date().toLocaleString(),
+        status: 'success'
+    };
+
+    // Atualiza o conteúdo da página com os dados recebidos
+    const successMessage = document.querySelector('h1');
+    const detailsParagraph = document.querySelector('p');
+
+    successMessage.textContent = 'Dados Enviados com Sucesso!';
+    detailsParagraph.innerHTML = `
+        Seus dados foram processados e armazenados com segurança.<br>
+        ID da transação: ${mockData.id}<br>
+        Timestamp: ${mockData.timestamp}
+    `;
+
+    // Adiciona interatividade ao botão
+    const returnButton = document.querySelector('.return-button');
+    returnButton.addEventListener('mouseover', () => {
+        returnButton.style.transform = 'scale(1.05)';
+    });
+    returnButton.addEventListener('mouseout', () => {
+        returnButton.style.transform = 'scale(1)';
+    });
+
+    // Efeito de confete para celebrar o sucesso
+    createConfetti();
+});
+
+function createConfetti() {
+    const confettiCount = 100;
+    const confettiContainer = document.createElement('div');
+    confettiContainer.style.position = 'fixed';
+    confettiContainer.style.top = '0';
+    confettiContainer.style.left = '0';
+    confettiContainer.style.width = '100%';
+    confettiContainer.style.height = '100%';
+    confettiContainer.style.pointerEvents = 'none';
+    document.body.appendChild(confettiContainer);
+
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.style.position = 'absolute';
+        confetti.style.width = '10px';
+        confetti.style.height = '10px';
+        confetti.style.backgroundColor = getRandomColor();
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = -10 + 'px';
+        confetti.style.borderRadius = '50%';
+        confetti.style.opacity = Math.random();
+        confetti.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+        confettiContainer.appendChild(confetti);
+
+        animateConfetti(confetti);
+    }
+
+    setTimeout(() => {
+        confettiContainer.remove();
+    }, 5000);
+}
+
+function getRandomColor() {
+    const colors = ['#f39c12', '#e74c3c', '#3498db', '#2ecc71', '#9b59b6'];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function animateConfetti(confetti) {
+    const animation = confetti.animate([
+        { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+        { transform: 'translate3d(' + (Math.random() * 200 - 100) + 'px, 100vh, 0)', opacity: 0 }
+    ], {
+        duration: Math.random() * 3000 + 2000,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        fill: 'forwards'
+    });
+    
+    animation.onfinish = () => confetti.remove();
+}
+</script>
+</body></html>
