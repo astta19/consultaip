@@ -95,9 +95,14 @@
         <h1>TMO - Vigia</h1>
         <div id="map"></div>
         <div class="input-group">
+
             
+            <label for="locationName1">Nome:</label>
+            <input type="text" id="locationName1" placeholder="Nome">
+
             <label for="locationName">Insira o nome do local:</label>
-            <input type="text" id="locationName" placeholder="Digite o nome do local">
+            <input type="text" id="locationName" placeholder="Local">
+            
         </div>
         <div class="input-group">
             <label for="observation">Observação:</label>
@@ -135,10 +140,13 @@
             const { latitude, longitude, accuracy } = position.coords;
             const timestamp = new Date().toISOString();
             const locationName = document.getElementById('locationName').value;
+            const locationName1 = document.getElementById('locationName1').value;
             const observation = document.getElementById('observation').value;
 
             const checkInData = {
-                name: locationName,
+
+                Local: locationName,
+                Nome: locationName1,
                 latitude,
                 longitude,
                 accuracy,
@@ -152,6 +160,7 @@
             updateStatus("Check-in realizado com sucesso.");
 
             // Limpar campos após o check-in
+            document.getElementById('locationName1').value = '';
             document.getElementById('locationName').value = '';
             document.getElementById('observation').value = '';
         }
@@ -176,8 +185,10 @@
             const list = document.getElementById('checkInList');
             const item = document.createElement('div');
             item.className = 'check-in-item';
+            item.className1 = 'check-in-item';
             item.innerHTML = `
                 <strong>${checkInData.name}</strong><br>
+                <strong>${checkInData.name1}</strong><br>
                 Latitude: ${checkInData.latitude.toFixed(6)}<br>
                 Longitude: ${checkInData.longitude.toFixed(6)}<br>
                 Precisão: ${checkInData.accuracy.toFixed(2)}m<br>
