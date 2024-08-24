@@ -1,0 +1,194 @@
+<html><head><base href="https://gptracker.app/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Check-in com Localização</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<style>
+    body {
+        font-family: monospace;
+        margin: 0;
+        padding: 20px;
+        background-color: #f0f0f0;
+    }
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+    #map {
+        width: 100%;
+        height: 300px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        display: none;
+    }
+    input, button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    #status {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #e7f3fe;
+        border-left: 6px solid #2196F3;
+    }
+    #checkInList {
+        margin-top: 20px;
+        height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        background-color: #f9f9f9;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Check-in com Localização</h1>
+        <div id="map"></div>
+        <input type="text" id="locationName" placeholder="Nome do local">
+        <button id="checkIn">Fazer Check-in</button>
+        <button id="saveToExcel">Salvar em Excel</button>
+        <div id="status">Status: Pronto para check-in</div>
+        <div id="checkInList"></div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=x2r5TpUM8zDeiFEN6"></script>
+    <script>
+        let map, marker;
+        let checkIns = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -14.235, lng: -51.925},
+                zoom: 4
+            });
+        }
+
+        function checkIn() {
+            const locationName = document.getElementById('locationName').value.trim();
+            if (!locationName) {
+                alert("Por favor, insira o nome do local.");
+                return;
+            }
+
+            if ("geolocation" in navigator) {
+                document.getElementById('status').textContent = 'Status: Obtendo localização...';
+                navigator.geolocation.getCurrentPosition(position => {
+                    const { latitude, longitude, accuracy } = position.coords;
+                    const timestamp = new Date().toISOString();
+
+                    const checkInData = {
+                        name: locationName,
+                        latitude,
+                        longitude,
+                        accuracy,
+                        timestamp
+                    };
+
+                    checkIns.push(checkInData);
+                    updateMap(latitude, longitude);
+                    updateCheckInList(checkInData);
+                    document.getElementById('status').textContent = `Status: Check-in realizado em ${locationName}`;
+                    document.getElementById('locationName').value = '';
+                }, handleError, {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                });
+            } else {
+                alert("Geolocalização não é suportada pelo seu navegador.");
+            }
+        }
+
+        function updateMap(latitude, longitude) {
+            const latLng = new google.maps.LatLng(latitude, longitude);
+
+            if (!marker) {
+                marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map
+                });
+            } else {
+                marker.setPosition(latLng);
+            }
+
+            map.panTo(latLng);
+            map.setZoom(15);
+        }
+
+        function handleError(error) {
+            let message = 'Erro desconhecido';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    message = "Usuário negou a solicitação de Geolocalização.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = "Informação de localização indisponível.";
+                    break;
+                case error.TIMEOUT:
+                    message = "A solicitação para obter a localização do usuário expirou.";
+                    break;
+            }
+            document.getElementById('status').textContent = 'Status: ' + message;
+        }
+
+        function updateCheckInList(data) {
+            const list = document.getElementById('checkInList');
+            const newEntry = document.createElement('p');
+            newEntry.textContent = `${data.name} - Lat: ${data.latitude.toFixed(6)}, Lon: ${data.longitude.toFixed(6)}, Precisão: ${data.accuracy.toFixed(2)}m, Hora: ${new Date(data.timestamp).toLocaleString()}`;
+            list.insertBefore(newEntry, list.firstChild);
+        }
+
+        function saveToExcel() {
+            if (checkIns.length === 0) {
+                alert('Nenhum check-in para salvar.');
+                return;
+            }
+
+            const worksheet = XLSX.utils.json_to_sheet(checkIns);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Check-ins");
+            
+            // Gerar o arquivo Excel
+            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+            saveExcelFile(excelBuffer, 'check_ins.xlsx');
+        }
+
+        function saveExcelFile(buffer, fileName) {
+            const data = new Blob([buffer], { type: 'application/octet-stream' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(data);
+            link.download = fileName;
+            link.click();
+        }
+
+        document.getElementById('checkIn').addEventListener('click', checkIn);
+        document.getElementById('saveToExcel').addEventListener('click', saveToExcel);
+
+        window.onload = initMap;
+    </script>
+</body>
+</html>
