@@ -94,28 +94,41 @@
     <div class="container">
         <center><img width="75" height="75" src="security.png" alt=""/></center>
         <h1>TMO - Vigia</h1>
-         <a href='qrcode.html'><button>escanear qr</button></a>
+        <a href='qrcode.html'><button>escanear qr</button></a>
+    
         <div id="map"></div>
         <div class="input-group">
-
+            <form enctype=multipart/form-data action="https://api.sheetmonkey.io/form/md3HnKnS8cojZ2M3ZJA4tM" method="post">
+                
+                <input type='file' name='arquivo'/>
+               
+                
+            <label>Nome: <input type="text" name="Example Header" required /></label>
             
-            <label for="locationName1">Nome:</label>
-            <input type="text" id="locationName1" placeholder="Nome">
+            <label>Local: <input type="text" name="Example Header" required /></label>  
 
-            <label for="locationName">Insira o nome do local:</label>
-            <input type="text" id="locationName" placeholder="Local">
+            <label>Observação: <input type="text" name="Example Header" required /></label> 
+            
+            <label>Data e Hora:<input type="datetime-local" required/></label>
+            
+           
             
         </div>
         <div class="input-group">
-            <label for="observation">Observação:</label>
-            <textarea id="observation" placeholder="Digite suas observações aqui"></textarea>
+            
+            
         </div>
         <button id="checkInBtn">Check do local</button>
-        <button id="exportBtn">Salvar</button>
+        <button id="exportBtn">Sheets</button>
+        
         <div id="status">Status: Pronto para check-in</div>
+    </form>
+     
+
         <div id="checkInList">
-            
-            <!-- Os check-ins serão inseridos aqui dinamicamente -->
+        <!-- Os check-ins serão inseridos aqui dinamicamente -->
+
+        
         </div>
     </div>
 
@@ -128,6 +141,11 @@
                 center: {lat: -14.235, lng: -51.925},
                 zoom: 4
             });
+        }
+
+        function setView(){
+
+
         }
 
         function getLocation() {
@@ -252,6 +270,14 @@
     </script>
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
+
 </body>
 </html>
+
+
+
+    
+
+
+
 
