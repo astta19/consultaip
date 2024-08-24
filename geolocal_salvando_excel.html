@@ -1,81 +1,117 @@
-<html><head><base href="https://gptracker.app/">
+<html><head><base href="">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistema de Check-in com Localização</title>
+<title>Check</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <style>
     body {
-        font-family: monospace;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        line-height: 1.6;
         margin: 0;
         padding: 20px;
-        background-color: #f0f0f0;
+        background-color: #080101;
     }
     .container {
-        max-width: 600px;
+        max-width: 400px;
         margin: 0 auto;
-        background-color: white;
+        background-color: #615656;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     h1 {
-        color: #333;
+        color: #000000;
         text-align: center;
     }
     #map {
         width: 100%;
         height: 300px;
         margin-bottom: 20px;
-        border-radius: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
         display: none;
     }
-    input, button {
+    .input-group {
+        margin-bottom: 15px;
+    }
+    label {
         display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    input[type="text"], textarea {
         width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
+        padding: 8px;
         border: 1px solid #ddd;
         border-radius: 4px;
         box-sizing: border-box;
     }
+    textarea {
+        height: 100px;
+        resize: vertical;
+    }
     button {
-        background-color: #4CAF50;
+        background-color: #07366d;
         color: white;
+        padding: 10px 15px;
         border: none;
+        border-radius: 4px;
         cursor: pointer;
         font-size: 16px;
     }
     button:hover {
-        background-color: #45a049;
+        background-color: #4b495a;
     }
     #status {
         margin-top: 20px;
         padding: 10px;
         background-color: #e7f3fe;
-        border-left: 6px solid #2196F3;
+        border-left: 6px solid #010c16;
     }
     #checkInList {
         margin-top: 20px;
-        height: 200px;
-        overflow-y: auto;
         border: 1px solid #ddd;
+        border-radius: 4px;
         padding: 10px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .check-in-item {
         background-color: #f9f9f9;
+        border: 1px solid #eee;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
     }
 </style>
 </head>
+
 <body>
+
+    
     <div class="container">
-        <h1>Sistema de Check-in com Localização</h1>
+        <center><img width="75" height="75" src="policeman.png" alt=""/></center>
+        <h1>TMO - Vigia</h1>
         <div id="map"></div>
-        <input type="text" id="locationName" placeholder="Nome do local">
-        <button id="checkIn">Fazer Check-in</button>
-        <button id="saveToExcel">Salvar em Excel</button>
+        <div class="input-group">
+            
+            <label for="locationName">Insira o nome do local:</label>
+            <input type="text" id="locationName" placeholder="Digite o nome do local">
+        </div>
+        <div class="input-group">
+            <label for="observation">Observação:</label>
+            <textarea id="observation" placeholder="Digite suas observações aqui"></textarea>
+        </div>
+        <button id="checkInBtn">Check do local</button>
+        <button id="exportBtn">Salvar</button>
         <div id="status">Status: Pronto para check-in</div>
-        <div id="checkInList"></div>
+        <div id="checkInList">
+            
+            <!-- Os check-ins serão inseridos aqui dinamicamente -->
+        </div>
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=x2r5TpUM8zDeiFEN6"></script>
     <script>
         let map, marker;
         let checkIns = [];
@@ -87,40 +123,37 @@
             });
         }
 
-        function checkIn() {
-            const locationName = document.getElementById('locationName').value.trim();
-            if (!locationName) {
-                alert("Por favor, insira o nome do local.");
-                return;
-            }
-
-            if ("geolocation" in navigator) {
-                document.getElementById('status').textContent = 'Status: Obtendo localização...';
-                navigator.geolocation.getCurrentPosition(position => {
-                    const { latitude, longitude, accuracy } = position.coords;
-                    const timestamp = new Date().toISOString();
-
-                    const checkInData = {
-                        name: locationName,
-                        latitude,
-                        longitude,
-                        accuracy,
-                        timestamp
-                    };
-
-                    checkIns.push(checkInData);
-                    updateMap(latitude, longitude);
-                    updateCheckInList(checkInData);
-                    document.getElementById('status').textContent = `Status: Check-in realizado em ${locationName}`;
-                    document.getElementById('locationName').value = '';
-                }, handleError, {
-                    enableHighAccuracy: true,
-                    timeout: 5000,
-                    maximumAge: 0
-                });
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(saveCheckIn, handleLocationError);
             } else {
-                alert("Geolocalização não é suportada pelo seu navegador.");
+                updateStatus("Geolocalização não é suportada por este navegador.");
             }
+        }
+
+        function saveCheckIn(position) {
+            const { latitude, longitude, accuracy } = position.coords;
+            const timestamp = new Date().toISOString();
+            const locationName = document.getElementById('locationName').value;
+            const observation = document.getElementById('observation').value;
+
+            const checkInData = {
+                name: locationName,
+                latitude,
+                longitude,
+                accuracy,
+                timestamp,
+                observation
+            };
+
+            checkIns.push(checkInData);
+            updateMap(latitude, longitude);
+            displayCheckIn(checkInData);
+            updateStatus("Check-in realizado com sucesso.");
+
+            // Limpar campos após o check-in
+            document.getElementById('locationName').value = '';
+            document.getElementById('observation').value = '';
         }
 
         function updateMap(latitude, longitude) {
@@ -139,42 +172,33 @@
             map.setZoom(15);
         }
 
-        function handleError(error) {
-            let message = 'Erro desconhecido';
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    message = "Usuário negou a solicitação de Geolocalização.";
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    message = "Informação de localização indisponível.";
-                    break;
-                case error.TIMEOUT:
-                    message = "A solicitação para obter a localização do usuário expirou.";
-                    break;
-            }
-            document.getElementById('status').textContent = 'Status: ' + message;
-        }
-
-        function updateCheckInList(data) {
+        function displayCheckIn(checkInData) {
             const list = document.getElementById('checkInList');
-            const newEntry = document.createElement('p');
-            newEntry.textContent = `${data.name} - Lat: ${data.latitude.toFixed(6)}, Lon: ${data.longitude.toFixed(6)}, Precisão: ${data.accuracy.toFixed(2)}m, Hora: ${new Date(data.timestamp).toLocaleString()}`;
-            list.insertBefore(newEntry, list.firstChild);
+            const item = document.createElement('div');
+            item.className = 'check-in-item';
+            item.innerHTML = `
+                <strong>${checkInData.name}</strong><br>
+                Latitude: ${checkInData.latitude.toFixed(6)}<br>
+                Longitude: ${checkInData.longitude.toFixed(6)}<br>
+                Precisão: ${checkInData.accuracy.toFixed(2)}m<br>
+                Data/Hora: ${moment(checkInData.timestamp).format('DD/MM/YYYY HH:mm:ss')}<br>
+                Observação: ${checkInData.observation || 'Nenhuma'}
+            `;
+            list.insertBefore(item, list.firstChild);
         }
 
-        function saveToExcel() {
+        function exportToExcel() {
             if (checkIns.length === 0) {
-                alert('Nenhum check-in para salvar.');
+                updateStatus("Nenhum dado para exportar.");
                 return;
             }
 
             const worksheet = XLSX.utils.json_to_sheet(checkIns);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Check-ins");
-            
-            // Gerar o arquivo Excel
+
             const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-            saveExcelFile(excelBuffer, 'check_ins.xlsx');
+            saveExcelFile(excelBuffer, 'check-ins.xlsx');
         }
 
         function saveExcelFile(buffer, fileName) {
@@ -183,12 +207,37 @@
             link.href = window.URL.createObjectURL(data);
             link.download = fileName;
             link.click();
+            updateStatus("Dados exportados para Excel com sucesso.");
         }
 
-        document.getElementById('checkIn').addEventListener('click', checkIn);
-        document.getElementById('saveToExcel').addEventListener('click', saveToExcel);
+        function updateStatus(message) {
+            document.getElementById('status').textContent = `Status: ${message}`;
+        }
+
+        function handleLocationError(error) {
+            let errorMessage;
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = "Usuário negou a solicitação de Geolocalização.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = "Informação de localização indisponível.";
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = "Tempo de solicitação de localização do usuário expirou.";
+                    break;
+                default:
+                    errorMessage = "Ocorreu um erro desconhecido.";
+            }
+            updateStatus(errorMessage);
+        }
+
+        document.getElementById('checkInBtn').addEventListener('click', getLocation);
+        document.getElementById('exportBtn').addEventListener('click', exportToExcel);
 
         window.onload = initMap;
     </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
 </body>
 </html>
