@@ -1,7 +1,7 @@
-<html><head><base href="" target="_blank">
+<html><head><base href="">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerador de QR Code com Senha</title>
+<title>QR Code Generator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
     body {
@@ -20,20 +20,16 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         text-align: center;
     }
-    input {
-        width: 100%;
-        padding: 0.5rem;
+    input, button {
         margin: 0.5rem 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        padding: 0.5rem;
+        width: 100%;
+        box-sizing: border-box;
     }
     button {
         background-color: #4CAF50;
         color: white;
         border: none;
-        padding: 0.5rem 1rem;
-        margin: 1rem 0;
-        border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s;
     }
@@ -47,32 +43,33 @@
 </head>
 <body>
     <div class="container">
-        <h1>Gerador de QR Code com Senha</h1>
-        <input type="text" id="text" placeholder="Digite o texto ou URL">
-        <input type="password" id="password" placeholder="Digite a senha">
-        <button onclick="generateQR()">Gerar QR Code</button>
+        <h2>QR Code Generator with Password</h2>
+        <input type="text" id="fileUrl" placeholder="Enter file URL">
+        <input type="password" id="password" placeholder="Enter password">
+        <button onclick="generateQR()">Generate QR Code</button>
         <div id="qrcode"></div>
     </div>
 
     <script>
         function generateQR() {
-            const text = document.getElementById('text').value;
+            const fileUrl = document.getElementById('fileUrl').value;
             const password = document.getElementById('password').value;
             
-            if (!text || !password) {
-                alert('Por favor, preencha todos os campos.');
+            if (!fileUrl || !password) {
+                alert('Please enter both file URL and password.');
                 return;
             }
 
-            const encryptedText = btoa(text + '|' + password);
-            
-            const qrcode = new QRCode(document.getElementById('qrcode'), {
-                text: encryptedText,
-                width: 200,
-                height: 200,
-                colorDark: '#000000',
-                colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.H
+            const data = JSON.stringify({ url: fileUrl, password: password });
+            const encodedData = btoa(data);
+
+            const qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: encodedData,
+                width: 256,
+                height: 256,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
             });
         }
     </script>
