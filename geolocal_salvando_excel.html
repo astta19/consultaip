@@ -101,15 +101,23 @@
             <form enctype=multipart/form-data action="https://api.sheetmonkey.io/form/md3HnKnS8cojZ2M3ZJA4tM" method="post">
                 
                 <input type='file' name='arquivo'/>
+                <progress id="sheetmonkey-upload-progress" max="100"></progress>
                
                 
-            <label>Nome: <input type="text" name="Example Header" required /></label>
+            <label>Nome: <input type="text" name="Nome" required /></label>
             
-            <label>Local: <input type="text" name="Example Header" required /></label>  
+            <label for="local">Local:<input type="text" name="Local" required /></label>
 
-            <label>Observação: <input type="text" name="Example Header" required /></label> 
             
-            <label>Data e Hora:<input type="datetime-local" required/></label>
+  
+</select>
+            <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" />
+            
+            </label>  
+
+            <label>Observação: <input type="text" name="Observação" required /></label> 
+            
+            
             
            
             
