@@ -60,17 +60,21 @@ p {
 </style>
 </head>
 <body>
+    
 <div class="success-container">
     <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
         <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" stroke="#2ecc71" stroke-width="2"/>
         <path class="checkmark" fill="none" stroke="#2ecc71" stroke-width="2" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
     </svg>
+    
     <h1>Dados Enviados com Sucesso!</h1>
     <p>Seus dados foram processados e armazenados com segurança em nossa base de dados.</p>
+    <a href='qrcode.html'><button>Próximo Local</button></a>
     
 </div>
 
 <script>
+
 document.addEventListener('DOMContentLoaded', (event) => {
     // Simula o recebimento de dados do servidor
     const mockData = {
