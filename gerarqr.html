@@ -1,141 +1,71 @@
-<html><head><base href="">
-<title>Secure Link QR Code Generator</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-        background-color: #f0f0f0;
-    }
-    .container {
-        text-align: center;
-        background-color: white;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
-        width: 100%;
-    }
-    input, button {
-        width: 100%;
-        padding: 0.5rem;
-        margin-bottom: 1rem;
-        box-sizing: border-box;
-    }
-    button {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-    }
-    button:hover {
-        background-color: #45a049;
-    }
-    #qrcode {
-        margin-top: 1rem;
-    }
-    #downloadLink {
-        display: none;
-        margin-top: 1rem;
-        text-decoration: none;
-        color: #4CAF50;
-        font-weight: bold;
-    }
-    #downloadLink:hover {
-        text-decoration: underline;
-    }
-    #secureLink {
-        word-break: break-all;
-        margin-top: 1rem;
-        padding: 1rem;
-        background-color: #f9f9f9;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-</style>
-</head>
-<body>
-<div class="container">
-    <h1>Link seguro QR Code Generator</h1>
-    <input type="url" id="linkInput" placeholder="Enter your link">
-    <input type="password" id="passwordInput" placeholder="Enter a password">
-    <button onclick="generateSecureQR()">Generate Secure QR Code</button>
-    <div id="qrcode"></div>
-    <div id="secureLink"></div>
-    <a id="downloadLink" download="secure-qr-code.png">Download QR Code</a>
-</div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Instascan</title>
+    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" ></script>	
+    <script src="./node_modules/html5-qrcode/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  <body>
+    <video id="preview"></video>
+    <style>
+      main {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+      #reader {
+          width: 600px;
+      }
+      #result {
+          text-align: center;
+          font-size: 1.5rem;
+      }
+  </style>
+  
+  <main>
+      <div id="reader"></div>
+      <div id="result"></div>
+  </main>
+      
+  
+  <script>
+  
+      const scanner = new Html5QrcodeScanner('reader', { 
+          // Scanner will be initialized in DOM inside element with id of 'reader'
+          qrbox: {
+              width: 250,
+              height: 250,
+          },  // Sets dimensions of scanning box (set relative to reader element width)
+          fps: 20, // Frames per second to attempt a scan
+      });
+  
+  
+      scanner.render(success, error);
+      // Starts scanner
+  
+      function success(result) {
+  
+          document.getElementById('result').innerHTML = `
+          <h2>Success!</h2>
+          <p><a href="${result}">${result}</a></p>
+          `;
+          // Prints result as a link inside result element
+  
+          scanner.clear();
+          // Clears scanning instance
+  
+          document.getElementById('reader').remove();
+          // Removes reader element from DOM since no longer needed
+      
+      }
+  
+      function error(err) {
+          console.error(err);
+          // Prints any errors to the console
+      }
+  
+  </script>
 
-<script>
-function generateSecureQR() {
-    const link = document.getElementById('linkInput').value;
-    const password = document.getElementById('passwordInput').value;
-    
-    if (!link || !password) {
-        alert('Please enter both a link and a password.');
-        return;
-    }
-
-    // Encrypt the link
-    const encrypted = CryptoJS.AES.encrypt(link, password).toString();
-
-    // Create the secure link
-    const secureLink = `${window.location.href}?data=${encodeURIComponent(encrypted)}`;
-
-    // Generate QR code
-    document.getElementById('qrcode').innerHTML = '';
-    new QRCode(document.getElementById('qrcode'), {
-        text: secureLink,
-        width: 256,
-        height: 256
-    });
-
-    // Display secure link
-    document.getElementById('secureLink').innerHTML = `<strong>Secure Link:</strong><br>${secureLink}`;
-
-    // Enable download link
-    setTimeout(() => {
-        const qrCodeImage = document.querySelector('#qrcode img');
-        const downloadLink = document.getElementById('downloadLink');
-        downloadLink.href = qrCodeImage.src;
-        downloadLink.style.display = 'inline-block';
-    }, 100);
-}
-
-// Function to decrypt and redirect
-function decryptAndRedirect() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const encryptedData = urlParams.get('data');
-
-    if (encryptedData) {
-        const password = prompt("Please enter the password to access the link:");
-        if (password) {
-            try {
-                const decrypted = CryptoJS.AES.decrypt(encryptedData, password).toString(CryptoJS.enc.Utf8);
-                if (decrypted) {
-                    window.location.href = decrypted;
-                } else {
-                    alert("Incorrect password or invalid link.");
-                }
-            } catch (error) {
-                alert("Decryption failed. Please check your password.");
-            }
-        }
-    }
-}
-
-// Check if there's encrypted data in the URL and attempt to decrypt
-decryptAndRedirect();
-</script>
-</body>
+ </body>
 </html>
