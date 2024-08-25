@@ -3,28 +3,69 @@
   <head>
     <title>Instascan</title>
     <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" ></script>	
+    <script src="./node_modules/html5-qrcode/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
     <video id="preview"></video>
-    <script>
-        let scanner = new Instascan.Scanner(
-            {
-                video: document.getElementById('preview')
-            }
-        );
-        scanner.addListener('scan', function(content) {
-            alert('Escaneou o conteudo: ' + content);
-            window.open(content, "_blank");
-        });
-        Instascan.Camera.getCameras().then(cameras => 
-        {
-            if(cameras.length > 1){
-                scanner.start(cameras[2]);
-            } else {
-                console.error("Não existe câmera no dispositivo!");
-            }
-        });
-    </script>
+    <style>
+      main {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+      #reader {
+          width: 600px;
+      }
+      #result {
+          text-align: center;
+          font-size: 1.5rem;
+      }
+  </style>
+  
+  <main>
+      <div id="reader"></div>
+      <div id="result"></div>
+  </main>
+      
+  
+  <script>
+  
+      const scanner = new Html5QrcodeScanner('reader', { 
+          // Scanner will be initialized in DOM inside element with id of 'reader'
+          qrbox: {
+              width: 250,
+              height: 250,
+          },  // Sets dimensions of scanning box (set relative to reader element width)
+          fps: 20, // Frames per second to attempt a scan
+      });
+  
+  
+      scanner.render(success, error);
+      // Starts scanner
+  
+      function success(result) {
+  
+          document.getElementById('result').innerHTML = `
+          <h2>Success!</h2>
+          <p><a href="${result}">${result}</a></p>
+          `;
+          // Prints result as a link inside result element
+  
+          scanner.clear();
+          // Clears scanning instance
+  
+          document.getElementById('reader').remove();
+          // Removes reader element from DOM since no longer needed
+      
+      }
+  
+      function error(err) {
+          console.error(err);
+          // Prints any errors to the console
+      }
+  
+  </script>
 
  </body>
 </html>
