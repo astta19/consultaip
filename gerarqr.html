@@ -1,71 +1,80 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Instascan</title>
-    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" ></script>	
-    <script src="./node_modules/html5-qrcode/html5-qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  </head>
-  <body>
-    <video id="preview"></video>
-    <style>
-      main {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-      }
-      #reader {
-          width: 600px;
-      }
-      #result {
-          text-align: center;
-          font-size: 1.5rem;
-      }
-  </style>
-  
-  <main>
-      <div id="reader"></div>
-      <div id="result"></div>
-  </main>
-      
-  
-  <script>
-  
-      const scanner = new Html5QrcodeScanner('reader', { 
-          // Scanner will be initialized in DOM inside element with id of 'reader'
-          qrbox: {
-              width: 250,
-              height: 250,
-          },  // Sets dimensions of scanning box (set relative to reader element width)
-          fps: 20, // Frames per second to attempt a scan
-      });
-  
-  
-      scanner.render(success, error);
-      // Starts scanner
-  
-      function success(result) {
-  
-          document.getElementById('result').innerHTML = `
-          <h2>Success!</h2>
-          <p><a href="${result}">${result}</a></p>
-          `;
-          // Prints result as a link inside result element
-  
-          scanner.clear();
-          // Clears scanning instance
-  
-          document.getElementById('reader').remove();
-          // Removes reader element from DOM since no longer needed
-      
-      }
-  
-      function error(err) {
-          console.error(err);
-          // Prints any errors to the console
-      }
-  
-  </script>
+<html><head><base href="" target="_blank">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de QR Code com Senha</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+    .container {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    input {
+        width: 100%;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        margin: 1rem 0;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    #qrcode {
+        margin-top: 1rem;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de QR Code com Senha</h1>
+        <input type="text" id="text" placeholder="Digite o texto ou URL">
+        <input type="password" id="password" placeholder="Digite a senha">
+        <button onclick="generateQR()">Gerar QR Code</button>
+        <div id="qrcode"></div>
+    </div>
 
- </body>
+    <script>
+        function generateQR() {
+            const text = document.getElementById('text').value;
+            const password = document.getElementById('password').value;
+            
+            if (!text || !password) {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+
+            const encryptedText = btoa(text + '|' + password);
+            
+            const qrcode = new QRCode(document.getElementById('qrcode'), {
+                text: encryptedText,
+                width: 200,
+                height: 200,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+    </script>
+</body>
 </html>
