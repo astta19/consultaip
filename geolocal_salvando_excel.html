@@ -1,4 +1,7 @@
-<html><head><base href="">
+<html><head>
+<meta name="theme-color" content="#000000">
+<link rel="manifest" href="manifest.json">
+<base href="">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Check</title>
@@ -86,7 +89,9 @@
         border-radius: 4px;
     }
 
-
+    @media only screen and (max-width: 600px) {
+    /* Adapte elementos como menus, colunas, e imagens para melhorar a visualização em dispositivos móveis. */
+}
 
 </style>
 </head>
@@ -97,11 +102,10 @@
     <div class="container">
         <center><img width="75" height="75" src="security.png" alt=""/></center>
         <h1>TMO - Vigia</h1>
-        
+        <a href='https://pageloot.com/pt/qr-code-scanner/'><button>escanear qr</button></a>
     
         <div id="map"></div>
         <div class="input-group">
-		
             <form enctype=multipart/form-data action="https://api.sheetmonkey.io/form/md3HnKnS8cojZ2M3ZJA4tM" method="post">
                 
                 <input type='file' name='arquivo' multiple='multiple'/>
