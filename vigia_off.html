@@ -1,0 +1,230 @@
+<html><head><base href=""><title>Check</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f8ff;
+  }
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #34495e;
+  }
+  input, textarea {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  button {
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    opacity: 0.9;
+  }
+  #locationStatus {
+    margin-top: 10px;
+    font-style: italic;
+    color: #7f8c8d;
+  }
+  #savedLocations {
+    margin-top: 20px;
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    padding: 15px;
+    border-radius: 4px;
+  }
+  .location-entry {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  #getLocationButton, #submitButton {
+    background-color: #3498db;
+  }
+  #exportButton {
+    background-color: #27ae60;
+  }
+  #clearButton {
+    background-color: #e74c3c;
+  }
+</style>
+</head>
+<link rel="shortcut icon" type="imagex/png" href="security-guard.png">
+<body>
+  <div class="container">
+    <h1>TMO Vigia</h1>
+    
+    <form id="locationForm" action="https://api.sheetmonkey.io/form/md3HnKnS8cojZ2M3ZJA4tM" method="post">
+      
+
+      <label for="name1">Nome:</label>
+      <input type="text" id="name1" name="name1" required>
+
+      <label for="name">Nome do Local:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label>Ocorrência:</a>
+        <select name="local">
+            <option value="sim">sim</option>
+            <option value="nao">não</option>
+            </select>
+            </label>
+
+      <label for="description">Descrição:</label>
+      <textarea id="description" name="description" rows="3"></textarea>
+
+      <label for="latitude">Latitude:</label>
+      <input type="text" id="latitude" name="latitude" readonly>
+
+      <label for="longitude">Longitude:</label>
+      <input type="text" id="longitude" name="longitude" readonly>
+
+      <button type="button" id="getLocationButton">Obter Localização Atual</button>
+      <div id="locationStatus"></div>
+
+      <button type="submit" id="submitButton">Salvar Localização</button>
+
+   
+
+    </form>
+    
+
+    <div id="savedLocations"></div>
+    
+    <div class="button-group">
+      <button id="exportButton">Exportar para Excel</button>
+      <button id="clearButton">Limpar Dados</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('locationForm');
+      const getLocationButton = document.getElementById('getLocationButton');
+      const locationStatus = document.getElementById('locationStatus');
+      const savedLocationsDiv = document.getElementById('savedLocations');
+      const exportButton = document.getElementById('exportButton');
+      const clearButton = document.getElementById('clearButton');
+      const latitudeInput = document.getElementById('latitude');
+      const longitudeInput = document.getElementById('longitude');
+
+      loadSavedLocations();
+
+      getLocationButton.addEventListener('click', function() {
+        if ("geolocation" in navigator) {
+          locationStatus.textContent = "Obtendo localização...";
+          navigator.geolocation.getCurrentPosition(function(position) {
+            latitudeInput.value = position.coords.latitude;
+            longitudeInput.value = position.coords.longitude;
+            locationStatus.textContent = "Localização obtida com sucesso!";
+          }, function(error) {
+            locationStatus.textContent = "Erro ao obter localização: " + error.message;
+          });
+        } else {
+          locationStatus.textContent = "Geolocalização não é suportada neste navegador.";
+        }
+      });
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const locationData = {
+          name: document.getElementById('name').value,
+          name1: document.getElementById('name1').value,
+          description: document.getElementById('description').value,
+          latitude: latitudeInput.value,
+          longitude: longitudeInput.value,
+          timestamp: new Date().toISOString()
+        };
+
+        let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+        savedLocations.push(locationData);
+        localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
+
+        loadSavedLocations();
+        form.reset();
+        latitudeInput.value = '';
+        longitudeInput.value = '';
+        locationStatus.textContent = '';
+      });
+
+      function loadSavedLocations() {
+        const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+        if (savedLocations.length > 0) {
+          let html = '<h3>Localizações Salvas:</h3>';
+          savedLocations.forEach((location, index) => {
+            html += `
+              <div class="location-entry">
+                <h4>${location.name}</h4>
+                <p><strong>Descrição:</strong> ${location.description}</p>
+                <p><strong>Latitude:</strong> ${location.latitude}</p>
+                <p><strong>Longitude:</strong> ${location.longitude}</p>
+                <p><strong>Data:</strong> ${new Date(location.timestamp).toLocaleString()}</p>
+              </div>
+            `;
+          });
+          savedLocationsDiv.innerHTML = html;
+        } else {
+          savedLocationsDiv.innerHTML = '<p>Nenhuma localização salva ainda.</p>';
+        }
+      }
+
+      exportButton.addEventListener('click', function() {
+        const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+        if (savedLocations.length === 0) {
+          alert('Não há localizações para exportar.');
+          return;
+        }
+
+        const ws = XLSX.utils.json_to_sheet(savedLocations);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Localizações");
+
+        XLSX.writeFile(wb, "localizacoes_salvas.xlsx");
+      });
+
+      clearButton.addEventListener('click', function() {
+        if (confirm('Tem certeza que deseja limpar todos os dados salvos?')) {
+          localStorage.removeItem('savedLocations');
+          loadSavedLocations();
+          alert('Todos os dados foram removidos.');
+        }
+      });
+    });
+  </script>
+</body></html>
