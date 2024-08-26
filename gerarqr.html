@@ -1,77 +1,78 @@
-<html><head><base href="">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Generator</title>
+<html><head><base href="https://api.websim.ai/"><title>QR Code com Senha</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    }
-    .container {
-        background-color: white;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-    input, button {
-        margin: 0.5rem 0;
-        padding: 0.5rem;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    button {
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    button:hover {
-        background-color: #45a049;
-    }
-    #qrcode {
-        margin-top: 1rem;
-    }
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+  .container {
+    text-align: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  #qrcode {
+    margin-top: 1rem;
+  }
+  input {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0.5rem 0;
+    cursor: pointer;
+    border-radius: 4px;
+  }
 </style>
 </head>
 <body>
-    <div class="container">
-        <h2>QR Code Generator with Password</h2>
-        <input type="text" id="fileUrl" placeholder="Enter file URL">
-        <input type="password" id="password" placeholder="Enter password">
-        <button onclick="generateQR()">Generate QR Code</button>
-        <div id="qrcode"></div>
-    </div>
+  <div class="container">
+    <h1>QR Code com Senha</h1>
+    <input type="text" id="url" placeholder="Digite a URL">
+    <input type="password" id="password" placeholder="Digite a senha">
+    <button onclick="generateQR()">Gerar QR Code</button>
+    <div id="qrcode"></div>
+  </div>
 
-    <script>
-        function generateQR() {
-            const fileUrl = document.getElementById('fileUrl').value;
-            const password = document.getElementById('password').value;
-            
-            if (!fileUrl || !password) {
-                alert('Please enter both file URL and password.');
-                return;
-            }
+  <script>
+    function generateQR() {
+      const url = document.getElementById('url').value;
+      const password = document.getElementById('password').value;
+      const qrContainer = document.getElementById('qrcode');
+      
+      if (!url || !password) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
 
-            const data = JSON.stringify({ url: fileUrl, password: password });
-            const encodedData = btoa(data);
+      // Limpa o conteúdo anterior
+      qrContainer.innerHTML = '';
 
-            const qrcode = new QRCode(document.getElementById("qrcode"), {
-                text: encodedData,
-                width: 256,
-                height: 256,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
-        }
-    </script>
-</body>
-</html>
+      // Cria o conteúdo do QR code (URL + senha criptografada)
+      const qrContent = `${url}#${btoa(password)}`;
+
+      // Gera o QR code
+      new QRCode(qrContainer, {
+        text: qrContent,
+        width: 200,
+        height: 200
+      });
+    }
+  </script>
+</body></html>
