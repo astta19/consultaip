@@ -1,204 +1,234 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escolha o seu Destino</title>
-
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<html><head><base href=""><title>Check</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-
-body {
-  font-family: monospace;
-  background: #1a1a1a;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden;
-  
-}
-
-.versao{
-   position: fixed;
-   top: 50px;
-   right: 0;
-   width: 150px;
-   height: 50px;
-   animation: anima 10s linear infinite;
-   
-}
-
-
-@keyframes anima{
-   from {right: 0}
-   to {right: 100%}
-}
-
-.login-container {
-  background: #bdc3c7;
-  border-radius: 10px;
-  padding: 40px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 13.5px );
-    -webkit-backdrop-filter: blur( 13.5px );
-    
-   
-}
-
-.input-group {
-  position: relative;
-  margin-bottom: 20px;
-}
-.floating-element {
-  position: absolute;
-  
-}
-select {
-        margin-bottom: 10px;
-        margin-top: 10px;
-        font-family: monospace;
-        outline: 0;
-        background: #ffff;
-        color: #130505;
-        border: 1px solid rgb(2, 0, 1);
-        padding: 4px;
-        border-radius: 9px;
-        text-align: center;
-      }
-
-.exit-button {
-    padding: 5px 30px;
-    font-size: 18px;
-    cursor: pointer;
-    background-color: #ff4136;
-    color: white;
+  body {
+    font-family: monospace;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #00080f;
+  }
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: #615656;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+  h1 {
+    text-align: center;
+    color:black;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    margin-top: 10px;
+    font-weight: bold;
+    color: black;
+  }
+  input, textarea {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  button {
+    color: black;
+    padding: 12px;
     border: none;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.exit-button:hover {
-    background-color: #ff1a1a;
-    transform: scale(1.05);
-}
-
-.exit-button:active {
-    transform: scale(0.95);
-}
-
-.exit-button::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s ease, height 0.6s ease;
-}
-
-.exit-button:hover::before {
-    width: 300px;
-    height: 300px;
-}
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    opacity: 0.9;
+  }
+  #locationStatus {
+    margin-top: 10px;
+    font-style: italic;
+    color: black;
+  }
+  #savedLocations {
+    margin-top: 20px;
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    padding: 15px;
+    border-radius: 4px;
+  }
+  .location-entry {
+    background-color: #928181;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  #getLocationButton, #submitButton {
+    background-color: #3498db;
+  }
+  #exportButton {
+    background-color: #27ae60;
+  }
+  #clearButton {
+    background-color: #e74c3c;
+  }
 </style>
 </head>
-
-
+<link rel="shortcut icon" type="imagex/png" href="security-guard.png">
 <body>
-<div class="login-container">
-  <div class="floating-element circle circle-1"></div>
-  <div class="floating-element circle circle-2"></div>
-  <form id="loginForm">
+  <div class="container">
+    <h1>TMO Vigia</h1>
+
+    <input type="file" id="fileInput" multiple />
+
+    <form id="locationForm">
+      
+
+      <label for="name1">Nome:</label>
+      <input type="text" id="name1" name="name1" required>
+
+      <label for="name">Nome do Local:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label>Ocorrência:</a>
+        <select name="local">
+            <option value="sim">sim</option>
+            <option value="nao">não</option>
+            </select>
+            </label>
+
+      <label for="description">Descrição:</label>
+      <textarea id="description" name="description" rows="3"></textarea>
+
+      <label for="latitude">Latitude:</label>
+      <input type="text" id="latitude" name="latitude" readonly>
+
+      <label for="longitude">Longitude:</label>
+      <input type="text" id="longitude" name="longitude" readonly>
+
+      <button type="button" id="getLocationButton">Obter Localização Atual</button>
+      <div id="locationStatus"></div>
+
+      <button type="submit" id="submitButton">Salvar Localização</button>
+
+   
+
+    </form>
     
-    <div class="input-group">
+
+    <div id="savedLocations"></div>
+    
+    <div class="button-group">
+      <button id="exportButton">Exportar para Excel</button>
+      <button id="clearButton">Limpar Dados</button>
     </div>
-   <div class="box-blue">
-    <div class="versao" type="versao">versão v1.01.01</div>
-      <select id="link">
-        <option value="" selected>Escolha a opçao</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=1045510031&single=true">Endoscopia</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=2051366561&single=true">Andar 8, 9 e 10.</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=520758441&single=true">Samsp+Crie</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=268433863&single=true">Engenharia</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=0#gid=0">Faixa 0</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1115397149#gid=1115397149">Faixa 1</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1809788111#gid=1809788111">Faixa 2</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1572344187#gid=1572344187">Faixa 3</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=286902531#gid=286902531">Faixa 4</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=2087272965#gid=2087272965">Faixa 5</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1963826406#gid=1963826406">Faixa 6</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1581187627#gid=1581187627">Faixa 7</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1637662983#gid=1637662983">Faixa 8</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1585823781#gid=1585823781">Faixa 9</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1233986465#gid=1233986465">Faixa 10</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1571736263#gid=1571736263">Faixa 11</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=1759240658#gid=1759240658">Faixa 12</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=150854547#gid=150854547">Faixa 13</option>
-        <option value="http://127.0.0.1:5500/Faixa%2014.html">Faixa 14</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/edit?gid=365022506#gid=365022506">Faixa 15</option>
-        <option value="https://docs.google.com/spreadsheets/d/1Owyrr0zrJaLZXeLGQw2WrCPsUs8p7rlNHO7RTdx9Cq0/pubhtml?gid=2066719045&single=true">DVRS</option>
-        <option value="gerarqr.html">GERAR QR CODE - com senha</option> 
-        <option value="qrsemsenha.html">GERAR QR CODE - sem senha</option> 
-        <option value="geolocal.html">TESTE - Geolocalização</option>
-         <option value="geolocal_salvando_excel.html">Vigia_On</option>
-        <option value="vigia_off.html">Vigia_Off</option>
-        <option value="qrcode.html">TESTE - qr code leitor</option>
-        
-        <option value="conclusao.html">OKr</option>
-      
-      </select>
-   </div>
-  </form>
-      <div class="sair">
-       
-        <button class="exit-button" id="exitButton">Sair</button>
-
-        <script>
-        document.getElementById('exitButton').addEventListener('click', function() {
-            alert('Você clicou no botão de sair!');
-            window.location.href = 'index.html';
-        });
-        </script>
-      </div>
-      
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-      
-      <script>
-      $(document).ready(function(){
-      
-         $('#link').on('change', function () {
-              var url = $(this).val(); 
-              if (url) { 
-                  window.open(url, '_blank');
-               }
-               return false;
-             });
-          });
-
-          window.onbeforeunload = function(){
-    return 'Tchau';
-};
-      </script>
-
-    </select>
   </div>
-</form>
-</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('locationForm');
+      const getLocationButton = document.getElementById('getLocationButton');
+      const locationStatus = document.getElementById('locationStatus');
+      const savedLocationsDiv = document.getElementById('savedLocations');
+      const exportButton = document.getElementById('exportButton');
+      const clearButton = document.getElementById('clearButton');
+      const latitudeInput = document.getElementById('latitude');
+      const longitudeInput = document.getElementById('longitude');
+
+      loadSavedLocations();
+
+      getLocationButton.addEventListener('click', function() {
+        if ("geolocation" in navigator) {
+          locationStatus.textContent = "Obtendo localização...";
+          navigator.geolocation.getCurrentPosition(function(position) {
+            latitudeInput.value = position.coords.latitude;
+            longitudeInput.value = position.coords.longitude;
+            locationStatus.textContent = "Localização obtida com sucesso!";
+          }, function(error) {
+            locationStatus.textContent = "Erro ao obter localização: " + error.message;
+          });
+        } else {
+          locationStatus.textContent = "Geolocalização não é suportada neste navegador.";
+        }
+      });
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const locationData = {
+          name: document.getElementById('name').value,
+          name1: document.getElementById('name1').value,
+          description: document.getElementById('description').value,
+          latitude: latitudeInput.value,
+          longitude: longitudeInput.value,
+          timestamp: new Date().toISOString()
+        };
+
+        let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+        savedLocations.push(locationData);
+        localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
+
+        loadSavedLocations();
+        form.reset();
+        latitudeInput.value = '';
+        longitudeInput.value = '';
+        locationStatus.textContent = '';
+      });
+
+      function loadSavedLocations() {
+        const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+        if (savedLocations.length > 0) {
+          let html = '<h3>Localizações Salvas:</h3>';
+          savedLocations.forEach((location, index) => {
+            html += `
+              <div class="location-entry">
+                <h4>${location.name}</h4>
+                <p><strong>Descrição:</strong> ${location.description}</p>
+                <p><strong>Latitude:</strong> ${location.latitude}</p>
+                <p><strong>Longitude:</strong> ${location.longitude}</p>
+                <p><strong>Data:</strong> ${new Date(location.timestamp).toLocaleString()}</p>
+              </div>
+            `;
+          });
+          savedLocationsDiv.innerHTML = html;
+        } else {
+          savedLocationsDiv.innerHTML = '<p>Nenhuma localização salva ainda.</p>';
+        }
+      }
+
+      exportButton.addEventListener('click', function() {
+        const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+        if (savedLocations.length === 0) {
+          alert('Não há localizações para exportar.');
+          return;
+        }
+
+        const ws = XLSX.utils.json_to_sheet(savedLocations);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Localizações");
+
+        XLSX.writeFile(wb, "localizacoes_salvas.xlsx");
+      });
+
+      clearButton.addEventListener('click', function() {
+        if (confirm('Tem certeza que deseja limpar todos os dados salvos?')) {
+          localStorage.removeItem('savedLocations');
+          loadSavedLocations();
+          alert('Todos os dados foram removidos.');
+        }
+      });
+    });
+
+    
+  </script>
 </body></html>
