@@ -6,8 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Check</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 <style>
     body {
         font-family: monospace;
@@ -94,25 +93,27 @@
     /* Adapte elementos como menus, colunas, e imagens para melhorar a visualização em dispositivos móveis. */
 }
 
+.file{
+    
+    
+    color: #28c205;
+    display: ;
+}
+
+
 </style>
 </head>
 <link rel="shortcut icon" type="imagex/png" href="security-guard.png">
 <body>
-
-    
     <div class="container">
-        <center><img width="75" height="75" src="security.png" alt=""/></center>
+        <center><img width="75" height="75" src="security-guard.png" alt=""/></center>
         <h1>TMO - Vigia</h1>
-       
-    
         <div id="map"></div>
         <div class="input-group">
             <form enctype=multipart/form-data action="https://api.sheetmonkey.io/form/md3HnKnS8cojZ2M3ZJA4tM" method="post">
+                 <input type="file" id="fileInput" multiple />
                 
-                <input type='file' name='arquivo' multiple='multiple'/>
-              
                 
-                <progress id="sheetmonkey-upload-progress" max="100"></progress>
                
                 
             <label>Nome: <input type="text" name="Nome" required /></label>
@@ -136,9 +137,9 @@
                         </select>
                         </label>
 
-            <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" /></label>  
+            <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" /></label>
 
-            <label>Observação: <input type="text" name="Observação" required /></label> 
+            <label>Observação: <input type="text" name="Observação" required /></label>
 
             
             
@@ -159,191 +160,22 @@
   
      
 
-        <div id="checkInList">
-        <!-- Os check-ins serão inseridos aqui dinamicamente -->
-
-        
-        </div>
     </div>
 
-    <script>
-         var x=document.getElementById("demo");		
-    function getLocation()
-      {
-      if (navigator.geolocation)
-      {
-      navigator.geolocation.getCurrentPosition(showPosition,showError);
-      }
-      else{x.innerHTML="Seu browser não suporta Geolocalização.";}
-      }
-      function showPosition(position)
-      {
-      x.innerHTML="Latitude: " + position.coords.latitude +
-      "<br>Longitude: " + position.coords.longitude; 
-	  }
-	
-	
-	
-	  console.log(getLocation());	
-	
-	  function showError(error)
-      {
-      switch(error.code)
-      {
-      case error.PERMISSION_DENIED:
-      x.innerHTML="Usuário rejeitou a solicitação de Geolocalização."
-      break;
-      case error.POSITION_UNAVAILABLE:
-      x.innerHTML="Localização indisponível."
-      break;
-      case error.TIMEOUT:
-      x.innerHTML="A requisição expirou."
-      break;
-      case error.UNKNOWN_ERROR:
-      x.innerHTML="Algum erro desconhecido aconteceu."
-      break;
-    }
-  }
-        let map, marker;
-        let checkIns = [];
+   
 
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: -14.235, lng: -51.925},
-                zoom: 4
-            });
-        }
-
-        function setView(){
-
-
-        }
-
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(saveCheckIn, handleLocationError);
-            } else {
-                updateStatus("Geolocalização não é suportada por este navegador.");
-            }
-        }
-
-        function saveCheckIn(position) {
-            const { latitude, longitude, accuracy } = position.coords;
-            const timestamp = new Date().toISOString();
-            const locationName = document.getElementById('locationName').value;
-            const locationName1 = document.getElementById('locationName1').value;
-            const observation = document.getElementById('observation').value;
-
-            const checkInData = {
-
-                Local: locationName,
-                Nome: locationName1,
-                latitude,
-                longitude,
-                accuracy,
-                timestamp,
-                observation
-            };
-
-            checkIns.push(checkInData);
-            updateMap(latitude, longitude);
-            displayCheckIn(checkInData);
-            updateStatus("Check-in realizado com sucesso.");
-
-            // Limpar campos após o check-in
-            document.getElementById('locationName').value = '';
-            document.getElementById('locationName1').value = '';
-            document.getElementById('observation').value = '';
-        }
-
-        function updateMap(latitude, longitude) {
-            const latLng = new google.maps.LatLng(latitude, longitude);
-
-            if (!marker) {
-                marker = new google.maps.Marker({
-                    position: latLng,
-                    map: map
-                });
-            } else {
-                marker.setPosition(latLng);
-            }
-
-            map.panTo(latLng);
-            map.setZoom(15);
-        }
-
-        function displayCheckIn(checkInData) {
-            const list = document.getElementById('checkInList');
-            const item = document.createElement('div');
-            item.className = 'check-in-item';
-            item.className1 = 'check-in-item';
-            item.innerHTML = `
-                <strong>${checkInData.name}</strong><br>
-                <strong>${checkInData.name1}</strong><br>
-                Latitude: ${checkInData.latitude.toFixed(6)}<br>
-                Longitude: ${checkInData.longitude.toFixed(6)}<br>
-                Precisão: ${checkInData.accuracy.toFixed(2)}m<br>
-                Data/Hora: ${moment(checkInData.timestamp).format('DD/MM/YYYY HH:mm:ss')}<br>
-                Observação: ${checkInData.observation || 'Nenhuma'}
-            `;
-            list.insertBefore(item, list.firstChild);
-        }
-
-        function exportToExcel() {
-            if (checkIns.length === 0) {
-                updateStatus("Nenhum dado para exportar.");
-                return;
-            }
-
-            const worksheet = XLSX.utils.json_to_sheet(checkIns);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Check-ins");
-
-            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-            saveExcelFile(excelBuffer, 'check-ins.xlsx');
-        }
-
-        function saveExcelFile(buffer, fileName) {
-            const data = new Blob([buffer], { type: 'application/octet-stream' });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(data);
-            link.download = fileName;
-            link.click();
-            updateStatus("Dados exportados para Excel com sucesso.");
-        }
-
-        function updateStatus(message) {
-            document.getElementById('status').textContent = `Status: ${message}`;
-        }
-
-        function handleLocationError(error) {
-            let errorMessage;
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    errorMessage = "Usuário negou a solicitação de Geolocalização.";
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    errorMessage = "Informação de localização indisponível.";
-                    break;
-                case error.TIMEOUT:
-                    errorMessage = "Tempo de solicitação de localização do usuário expirou.";
-                    break;
-                default:
-                    errorMessage = "Ocorreu um erro desconhecido.";
-            }
-            updateStatus(errorMessage);
-        }
-
-        document.getElementById('checkInBtn').addEventListener('click', getLocation);
-        document.getElementById('exportBtn').addEventListener('click', exportToExcel);
-
-        window.onload = initMap;
-    </script>
-
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
+    
 
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
