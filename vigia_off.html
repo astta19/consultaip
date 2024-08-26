@@ -1,23 +1,23 @@
 <html><head><base href=""><title>Check</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
+    font-family: monospace;
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    background-color: #f0f8ff;
+    background-color: #00080f;
   }
   .container {
     max-width: 600px;
     margin: auto;
-    background: #fff;
+    background: #615656;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
   }
   h1 {
     text-align: center;
-    color: #2c3e50;
+    color:black;
   }
   form {
     display: flex;
@@ -26,7 +26,7 @@
   label {
     margin-top: 10px;
     font-weight: bold;
-    color: #34495e;
+    color: black;
   }
   input, textarea {
     padding: 10px;
@@ -36,7 +36,7 @@
     font-size: 16px;
   }
   button {
-    color: white;
+    color: black;
     padding: 12px;
     border: none;
     border-radius: 4px;
@@ -51,7 +51,7 @@
   #locationStatus {
     margin-top: 10px;
     font-style: italic;
-    color: #7f8c8d;
+    color: black;
   }
   #savedLocations {
     margin-top: 20px;
@@ -61,7 +61,7 @@
     border-radius: 4px;
   }
   .location-entry {
-    background-color: #fff;
+    background-color: #928181;
     border: 1px solid #e0e0e0;
     padding: 10px;
     margin-bottom: 10px;
@@ -87,8 +87,10 @@
 <body>
   <div class="container">
     <h1>TMO Vigia</h1>
-    
-    <form id="locationForm" action="https://api.sheetmonkey.io/form/md3HnKnS8cojZ2M3ZJA4tM" method="post">
+
+    <input type="file" id="fileInput" multiple />
+
+    <form id="locationForm">
       
 
       <label for="name1">Nome:</label>
@@ -226,5 +228,7 @@
         }
       });
     });
+
+    
   </script>
 </body></html>
