@@ -1,0 +1,114 @@
+<html><head><base href="">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ronda Iniciada com Sucesso</title>
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+  }
+  h1 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  p {
+    color: #34495e;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .details {
+    background-color: #f3f7fa;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  .details p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  .button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  .button:hover {
+    background-color: #2980b9;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle cx="26" cy="26" r="25" fill="#2ecc71"/>
+      <path fill="none" stroke="#ffffff" stroke-width="4" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+    </svg>
+    
+    <h1>Ronda Iniciada com Sucesso!</h1>
+    <p>Sua ronda foi registrada no sistema. Mantenha-se seguro e vigilante durante o patrulhamento.</p>
+    
+    <div class="details">
+      <p><strong>Agente:</strong> <span id="officerName"></span></p>
+      <p><strong>Distintivo:</strong> <span id="badgeNumber"></span></p>
+      <p><strong>Veículo:</strong> <span id="vehicle"></span></p>
+      <p><strong>Hora de Início:</strong> <span id="startTime"></span></p>
+      <p><strong>Área de Patrulha:</strong> <span id="patrolArea"></span></p>
+    </div>
+    
+    <a href="ronda_inicio.html" class="button">Voltar ao Formulário</a>
+  </div>
+
+  <script>
+    // Função para obter parâmetros da URL
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // Preencher os detalhes da ronda
+    document.getElementById('officerName').textContent = getUrlParameter('officerName');
+    document.getElementById('badgeNumber').textContent = getUrlParameter('badgeNumber');
+    document.getElementById('vehicle').textContent = getUrlParameter('vehicle');
+    document.getElementById('startTime').textContent = getUrlParameter('startTime');
+    document.getElementById('patrolArea').textContent = getUrlParameter('patrolArea');
+
+    // Se algum campo estiver vazio, preencher com dados de exemplo
+    if (!document.getElementById('officerName').textContent) {
+      document.getElementById('officerName').textContent = "João Silva";
+      document.getElementById('badgeNumber').textContent = "12345";
+      document.getElementById('vehicle').textContent = "Viatura 01";
+      document.getElementById('startTime').textContent = "14:30";
+      document.getElementById('patrolArea').textContent = "Centro";
+    }
+  </script>
+</body>
+</html>
