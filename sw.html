@@ -120,9 +120,10 @@ th {
 <body>
 <div class="container">
     <h1>Inventário de Switches</h1>
-    <form action="https://api.sheetmonkey.io/form/3wAvjPkSjQwxCrLmujMf48" method="post">
+    <form action="https://api.sheetmonkey.io/form/3wAvjPkSjQwxCrLmujMf48" enctype="multipart/form-data" method="post">
+
         <input type='file' name='My File'/>
-        
+
         <label for="marca">Marca:</label>
         <input type="text" id="marca" name="marca" required>
 
@@ -140,7 +141,7 @@ th {
 
         <button type="submit">Adicionar Switch</button>
     </form>
-
+    <script src="https://sheetmonkey.io/lib/files.min.js" type="text/javascript"></script>
 </body>
-<script src="https://sheetmonkey.io/lib/files.min.js" type="text/javascript"></script>
+
 </html>
