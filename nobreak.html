@@ -1,134 +1,141 @@
 <html><head><base href="">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dados do Nobreak</title>
+<title>Formulário de Cadastro de Nobreak</title>
 <style>
-body {
-    font-family: monospace;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-.container {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 200%;
-    max-width: 500px;
-}
-
-h1 {
-    text-align: center;
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
     color: #333;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    margin-top: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+  }
+  form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
     font-weight: bold;
-}
-
-input, select {
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
+  }
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 1rem;
-}
-
-button {
-    margin-top: 1.5rem;
-    padding: 0.75rem;
-    background-color: #4CAF50;
-    color: white;
+    box-sizing: border-box;
+  }
+  input[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 15px;
     border: none;
     border-radius: 4px;
-    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-#mensagem {
-    margin-top: 1rem;
-    text-align: center;
-    font-weight: bold;
-}
+    font-size: 16px;
+  }
+  input[type="submit"]:hover {
+    background-color: #2980b9;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
 </style>
 </head>
 <body>
-<div class="container">
-    <h1>Dados do Nobreak</h1>
-    <form action="https://api.sheetmonkey.io/form/ioHn1bkG8DAjwWAs6QDqfD" method="post">
-        <input type="file">
-        <label for="marca">Marca:</label>
-        <input type="text" id="marca" name="marca" required>
+  <h1>Cadastro de Nobreak</h1>
+  <form action="https://api.sheetmonkey.io/form/ioHn1bkG8DAjwWAs6QDqfD" method="POST">
+    <div class="form-group">
+      <label for="modelo">Modelo do Nobreak:</label>
+      <input type="text" id="modelo" name="modelo" required>
+    </div>
 
-        <label for="modelo">Modelo:</label>
-        <input type="text" id="modelo" name="modelo" required>
+<div>
+    <input type='file' name='My File'/>
+  </div>
 
-        <label for="potencia">Potência (VA):</label>
-        <input type="number" id="potencia" name="potencia" required>
 
-        <label for="tensaoEntrada">Tensão de Entrada:</label>
-        <select id="tensaoEntrada" name="tensaoEntrada" required>
-            <option value="">Selecione</option>
-            <option value="110">110V</option>
-            <option value="220">220V</option>
-            <option value="bivolt">Bivolt</option>
-        </select>
+    <div class="form-group">
+      <label for="potencia">Potência (VA):</label>
+      <input type="number" id="potencia" name="potencia" required>
+    </div>
 
-        <label for="tensaoSaida">Tensão de Saída:</label>
-        <select id="tensaoSaida" name="tensaoSaida" required>
-            <option value="">Selecione</option>
-            <option value="110">110V</option>
-            <option value="220">220V</option>
-        </select>
+    <div class="form-group">
+      <label for="tensaoEntrada">Tensão de Entrada (V):</label>
+      <select id="tensaoEntrada" name="tensaoEntrada" required>
+        <option value="">Selecione</option>
+        <option value="110">110V</option>
+        <option value="220">220V</option>
+        <option value="bivolt">Bivolt</option>
+      </select>
+    </div>
 
-        <label for="autonomia">Autonomia (minutos):</label>
-        <input type="number" id="autonomia" name="autonomia" required>
+    <div class="form-group">
+      <label for="tensaoSaida">Tensão de Saída (V):</label>
+      <select id="tensaoSaida" name="tensaoSaida" required>
+        <option value="">Selecione</option>
+        <option value="110">110V</option>
+        <option value="220">220V</option>
+      </select>
+    </div>
 
-        <button type="submit">Enviar Dados</button>
-    </form>
-    <div id="mensagem"></div>
-</div>
+    <div class="form-group">
+      <label for="autonomia">Autonomia (minutos):</label>
+      <input type="number" id="autonomia" name="autonomia" required>
+    </div>
 
-<script>
-document.getElementById('nobreakForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    const dados = Object.fromEntries(formData.entries());
-    
-    // Simula o envio dos dados para um servidor
-    setTimeout(() => {
-        console.log('Dados enviados:', dados);
-        document.getElementById('mensagem').textContent = 'Dados enviados com sucesso!';
-        document.getElementById('mensagem').style.color = '#4CAF50';
-        
-        // Limpa o formulário após o envio
-        this.reset();
-        
-        // Limpa a mensagem após 3 segundos
-        setTimeout(() => {
-            document.getElementById('mensagem').textContent = '';
-        }, 3000);
-    }, 1000);
-});
+    <div class="form-group">
+      <label for="local">Local de Instalação:</label>
+      <input type="text" id="local" name="local" required>
+    </div>
 
-</script>
-<script src="https://sheetmonkey.io/lib/files.min.js" type="text/javascript"></script>
+    <div class="form-group">
+      <label for="andar">Andar:</label>
+      <input type="text" id="andar" name="andar" required>
+    </div>
+
+    <div class="form-group">
+      <label for="sala">Sala/Departamento:</label>
+      <input type="text" id="sala" name="sala" required>
+    </div>
+
+    <div class="form-group">
+      <label for="responsavel">Responsável:</label>
+      <input type="text" id="responsavel" name="responsavel" required>
+    </div>
+
+    <div class="form-group">
+      <label for="observacoes">Observações:</label>
+      <textarea id="observacoes" name="observacoes" rows="4"></textarea>
+    </div>
+
+    <input type="submit" value="Cadastrar Nobreak">
+  </form>
+  <script src="https://sheetmonkey.io/lib/files.min.js" type="text/javascript"></script>
+
+  <script>
+    document.getElementById('nobreakForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Aqui você pode adicionar a lógica para enviar os dados do formulário
+      // Por exemplo, usando fetch API para enviar os dados para um servidor
+
+      alert('Formulário enviado com sucesso!');
+      this.reset();
+    });
+  </script>
 </body>
 </html>
