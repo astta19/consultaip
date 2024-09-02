@@ -1,0 +1,194 @@
+<html><head><base href=""></head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário Responsivo para Inventário de DVR</title>
+<style>
+  :root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --accent-color: #3498db;
+    --background-color: #ecf0f1;
+    --form-background: #ffffff;
+    --text-color: #333333;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  .form-container {
+    background-color: var(--form-background);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+  }
+
+  h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    font-size: 28px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--secondary-color);
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+  }
+
+  button {
+    width: 100%;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #2980b9;
+  }
+
+  .dvr-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    display: block;
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      padding: 10px;
+    }
+
+    .form-container {
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      font-size: 14px;
+    }
+  }
+</style>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <svg class="dvr-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="3" width="20" height="18" rx="2" stroke="#2c3e50" stroke-width="2"/>
+        <circle cx="6" cy="7" r="1" fill="#2c3e50"/>
+        <circle cx="10" cy="7" r="1" fill="#2c3e50"/>
+        <circle cx="14" cy="7" r="1" fill="#2c3e50"/>
+        <rect x="4" y="11" width="16" height="2" fill="#2c3e50"/>
+        <rect x="4" y="15" width="16" height="2" fill="#2c3e50"/>
+      </svg>
+      <h1>Inventário de DVR</h1>
+      <form enctype="multipart/form-data" action="" method="post">
+        <input type='file' name='My File'/>
+        <div class="form-group">
+          <label for="model">Modelo do DVR</label>
+          <input type="text" id="model" name="model" required>
+        </div>
+        <div class="form-group">
+          <label for="brand">Marca</label>
+          <input type="text" id="brand" name="brand" required>
+        </div>
+        <div class="form-group">
+          <label for="channels">Número de Canais</label>
+          <select id="channels" name="channels" required>
+            <option value="">Selecione o número de canais</option>
+            <option value="4">4 canais</option>
+            <option value="8">8 canais</option>
+            <option value="16">16 canais</option>
+            <option value="32">32 canais</option>
+            <option value="64">64 canais</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="storage">Capacidade de Armazenamento (TB)</label>
+          <input type="number" id="storage" name="storage" min="0" step="0.5" required>
+        </div>
+        <div class="form-group">
+          <label for="resolution">Resolução Máxima</label>
+          <select id="resolution" name="resolution" required>
+            <option value="">Selecione a resolução máxima</option>
+            <option value="720p">720p</option>
+            <option value="1080p">1080p</option>
+            <option value="4K">4K</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="location">Localização</label>
+          <input type="text" id="location" name="location" required>
+        </div>
+        <div class="form-group">
+          <label for="installDate">Data de Instalação</label>
+          <input type="date" id="installDate" name="installDate" required>
+        </div>
+        <div class="form-group">
+          <label for="ipAddress">Endereço IP</label>
+          <input type="text" id="ipAddress" name="ipAddress" pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" placeholder="ex: 192.168.1.100" required>
+        </div>
+        <div class="form-group">
+          <label for="notes">Observações</label>
+          <textarea id="notes" name="notes" rows="3"></textarea>
+        </div>
+        <button type="submit">Adicionar ao Inventário</button>
+      </form>
+      <script src="https://sheetmonkey.io/lib/files.min.js" type="text/javascript"></script>
+    </div>
+  </div>
+
+ 
+</body>
+</html>
