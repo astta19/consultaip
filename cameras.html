@@ -1,134 +1,198 @@
 <html><head><base href=""></head>
-<title>Inventário de Câmeras de Segurança</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário Responsivo de Inventário de Câmeras de Segurança</title>
 <style>
-  body {
-    font-family: monospace;
-    background-color: #f0f4f8;
-    margin: 0;
-    padding: 20px;
-    color: #333;
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --background-color: #f0f4f8;
+    --form-background: #ffffff;
+    --text-color: #333333;
   }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+
   .container {
+    width: 100%;
     max-width: 600px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    padding: 30px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  .form-container {
+    background-color: var(--form-background);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
   }
+
   h1 {
     text-align: center;
-    color: #2c3e50;
+    color: var(--secondary-color);
     margin-bottom: 30px;
+    font-size: 24px;
   }
-  form {
-    display: grid;
-    gap: 20px;
+
+  .form-group {
+    margin-bottom: 20px;
   }
+
   label {
-    font-weight: bold;
-    margin-bottom: 5px;
     display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--secondary-color);
   }
-  input, select, textarea {
+
+  input,
+  select,
+  textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
   }
+
   button {
-    background-color: #3498db;
+    width: 100%;
+    background-color: var(--primary-color);
     color: white;
-    padding: 12px 20px;
+    padding: 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
   }
+
   button:hover {
     background-color: #2980b9;
   }
+
   .camera-icon {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     margin: 0 auto 20px;
     display: block;
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      padding: 10px;
+    }
+
+    .form-container {
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 20px;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      font-size: 14px;
+    }
   }
 </style>
 <body>
   <div class="container">
-    <svg class="camera-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 3H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M12 17C14.2091 17 16 15.2091 16 13C16 10.7909 14.2091 9 12 9C9.79086 9 8 10.7909 8 13C8 15.2091 9.79086 17 12 17Z" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <h1>Inventário de Câmeras de Segurança</h1>
-    <form action="https://api.sheetmonkey.io/form/ci8iUsBsLR8u2SHjzVH29F" enctype="multipart/form-data" method="post">
-<input accept="image/png, image/jpeg" type='file' name='My File'/>
+    <div class="form-container">
+      <svg class="camera-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 3H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 17C14.2091 17 16 15.2091 16 13C16 10.7909 14.2091 9 12 9C9.79086 9 8 10.7909 8 13C8 15.2091 9.79086 17 12 17Z" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h1>Inventário de Câmeras de Segurança</h1>
+      <form action="https://api.sheetmonkey.io/form/ci8iUsBsLR8u2SHjzVH29F" enctype="multipart/form-data" method="post">
 
-      <div>
-        <label for="model">Modelo da Câmera:</label>
-        <input type="text" id="model" name="model" required>
-      </div>
-      <div>
-        <label for="brand">Marca:</label>
-        <input type="text" id="brand" name="brand" required>
-      </div>
-      <div>
-        <label for="resolution">Resolução:</label>
-        <select id="resolution" name="resolution" required>
-          <option value="">Selecione a resolução</option>
-          <option value="720p">720p</option>
-          <option value="1080p">1080p</option>
-          <option value="2K">2K</option>
-          <option value="4K">4K</option>
-        </select>
-      </div>
-      <div>
-        <label for="type">Tipo de Câmera:</label>
-        <select id="type" name="type" required>
-          <option value="">Selecione o tipo</option>
-          <option value="dome">Dome</option>
-          <option value="bullet">Bullet</option>
-          <option value="ptz">PTZ</option>
-          <option value="ip">IP</option>
-        </select>
-      </div>
-      <div>
-        <label for="location">Localização:</label>
-        <input type="text" id="location" name="location" required>
-      </div>
-      <div>
-        <label for="installDate">Data de Instalação:</label>
-        <input type="date" id="installDate" name="installDate" required>
-      </div>
-      <div>
-        <label for="notes">Observações:</label>
-        <textarea id="notes" name="notes" rows="3"></textarea>
-      </div>
-      <button type="submit">Adicionar ao Inventário</button>
-    </form>
+        <input accept="image/png, image/jpeg" type='file' name='My File'/>
+
+        <div class="form-group">
+          <label for="model">Modelo da Câmera</label>
+          <input type="text" id="model" name="model" required>
+        </div>
+        <div class="form-group">
+          <label for="brand">Marca</label>
+          <input type="text" id="brand" name="brand" required>
+        </div>
+        <div class="form-group">
+          <label for="resolution">Resolução</label>
+          <select id="resolution" name="resolution" required>
+            <option value="">Selecione a resolução</option>
+            <option value="720p">720p</option>
+            <option value="1080p">1080p</option>
+            <option value="2K">2K</option>
+            <option value="4K">4K</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="type">Tipo de Câmera</label>
+          <select id="type" name="type" required>
+            <option value="">Selecione o tipo</option>
+            <option value="dome">Dome</option>
+            <option value="bullet">Bullet</option>
+            <option value="ptz">PTZ</option>
+            <option value="ip">IP</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="location">Localização</label>
+          <input type="text" id="location" name="location" required>
+        </div>
+        <div class="form-group">
+          <label for="installDate">Data de Instalação</label>
+          <input type="date" id="installDate" name="installDate" required>
+        </div>
+        <div class="form-group">
+          <label for="notes">Observações</label>
+          <textarea id="notes" name="notes" rows="3"></textarea>
+        </div>
+        <button type="submit">Adicionar ao Inventário</button>
+      </form>
+    </div>
   </div>
-<script src="https://sheetmonkey.io/lib/files.min.js" type="text/javascript"></script>
+
   <script>
     document.getElementById('cameraForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // Coletar dados do formulário
       const formData = new FormData(this);
       const cameraData = Object.fromEntries(formData.entries());
 
-      // Aqui você pode adicionar código para enviar os dados para um servidor
-      // ou armazená-los localmente, dependendo dos requisitos do seu aplicativo
-
+      // Simular o envio dos dados para um servidor
       console.log('Dados da câmera:', cameraData);
 
-      // Exemplo de feedback para o usuário
+      // Feedback para o usuário
       alert('Câmera adicionada ao inventário com sucesso!');
 
-      // Limpar o formulário após o envio
+      // Limpar o formulário
       this.reset();
+    });
+
+    // Adicionar validação em tempo real
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+      input.addEventListener('blur', function() {
+        if (this.checkValidity()) {
+          this.style.borderColor = '#4CAF50';
+        } else {
+          this.style.borderColor = '#F44336';
+        }
+      });
     });
   </script>
 </body>
