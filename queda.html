@@ -1,0 +1,72 @@
+<html><head><base href="">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quedas de Energia</title>
+<style>
+  body {
+    font-family: monospace;
+    line-height: 1.6;
+    color: #333;
+    background-color: #5f2c2c;
+    margin: 0;
+    padding: 20px;
+  }
+  .container {
+    max-width: 400px;
+    margin: 0 auto;
+    background: #c9b6b6;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+  }
+  form {
+    display: grid;
+    gap: 15px;
+  }
+  label {
+    font-weight: bold;
+  }
+  input[type="text"],
+  input[type="datetime-local"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+</style>
+</head>
+
+<body>
+  
+  <div class="container">
+    <center><img src="img/parafuso.png" width="150px" height="150px"></center>
+    <h1>Quedas de Energia</h1>
+    <form action="https://api.sheetmonkey.io/form/8WaX7xvzRtrnBFd164mYAg" method="post">
+      
+      <label>Localização: <input type="text" name="Localização" required /></label>
+      <label>Hora início: <input type="time" name="Hora início" required /></label>
+      <label>Hora Término: <input type="time" name="Hora Término" required /></label>
+      
+      <select name="motivo" id="1">
+        <option>Selecione um Motivo</option>
+        <option>Manutenção</option>
+        <option>Reparo</option>
+        <option>Outros</option>
+      </select>
+
+
+      <label>Descrição: <input type="text" name="Descrição" required /></label>
+      <input type="hidden" name="Data" value="x-sheetmonkey-current-date-time" />
+      
+      <input type="submit" value="Enviar" />
+    </form>
+  </div>
+
+  
+</body></html>
